@@ -1,0 +1,84 @@
+---
+title: "Project2"
+author: "Mohamed Elashri"
+date: "March 22, 2020"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Statistical Inference Course Project 2
+
+
+## Introduction 
+Load the ToothGrowth data and perform some basic exploratory data analyses
+
+
+## Load the ToothGrowth data and perform some basic exploratory data analyses
+
+```{r}
+#  libraries
+library(ggplot2)
+library(datasets)
+library(gridExtra)
+library(GGally)
+
+# The Effect of Vitamin C on Tooth Growth in Guinea Pigs
+data(ToothGrowth)
+toothGrowth <- ToothGrowth 
+toothGrowth$dose <- as.factor(toothGrowth$dose) #  factor conversion 
+
+```
+
+## basic summary of the data
+
+```{r}
+str(toothGrowth)
+
+```
+
+```{r}
+summary(toothGrowth)
+
+```
+
+```{r}
+head(toothGrowth)
+
+```
+
+```{r}
+table(toothGrowth$supp, toothGrowth$dose)
+
+```
+
+Now we do Analysis of Variance ANOVA test 
+
+```{r}
+anova <- aov(len ~ supp * dose, data=toothGrowth)
+summary(anova)
+
+```
+
+
+Results here support that there is a notable interaction between the length (len) and dosage (dose) with F values is 15.572 and with p<0.01. Also there is weak interaction between the combination of supplement type (supp) and dosage (dose) compared to the length (len) , F= 4.107 , p<0.05. 
+
+## Use confidence intervals
+
+```{r}
+confint(anova)
+
+```
+
+```{r}
+print(model.tables(anova,"means"),digits=3)
+
+```
+
+## conclusions 
+
+from our observation, We  conclude that a higher dose is the main factor to increase the Tooth Growth using VC but OJ has better results at lower doses. 
